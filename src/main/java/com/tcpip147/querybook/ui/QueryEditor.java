@@ -18,6 +18,8 @@ import com.tcpip147.querybook.model.Query;
 import com.tcpip147.querybook.ui.component.QueryBookActionMenu;
 import com.tcpip147.querybook.ui.component.QueryBookListTable;
 import com.tcpip147.querybook.util.DocumentUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,9 +28,12 @@ import java.awt.event.MouseEvent;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class QueryEditor extends JBSplitter {
 
+    private static final Logger log = LoggerFactory.getLogger(QueryEditor.class);
     private Context ctx;
     private QueryBookListTable listTable;
     private JPanel bottomPanel;
@@ -229,11 +234,23 @@ public class QueryEditor extends JBSplitter {
             PsiElement text = DocumentUtils.findTextElement(queryElement);
             if (text != null) {
                 Editor editor = queryList.get(index).getEditor();
-                editor.getCaretModel().moveToOffset(offset - text.getNode().getStartOffset() - XmlQuery.DELIMITER.length());
+                String originContent = text.getNode().getText();
+                int delimiterCount = countDelimiter(originContent.substring(0, offset - text.getNode().getStartOffset()));
+                editor.getCaretModel().moveToOffset(offset - text.getNode().getStartOffset() - (XmlQuery.DELIMITER.length() - 1) * delimiterCount - 1);
                 editor.getScrollingModel().scrollToCaret(ScrollType.CENTER_UP);
                 editor.getContentComponent().requestFocus(false);
             }
         }
+    }
+
+    private int countDelimiter(String content) {
+        Pattern pattern = Pattern.compile(XmlQuery.DELIMITER);
+        Matcher matcher = pattern.matcher(content);
+        int count = 0;
+        while (matcher.find()) {
+            count++;
+        }
+        return count;
     }
 
     public Query getQuery(int n) {
