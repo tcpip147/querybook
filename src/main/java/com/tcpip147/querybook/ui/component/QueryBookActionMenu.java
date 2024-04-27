@@ -28,8 +28,12 @@ public class QueryBookActionMenu extends JPanel {
     private void createLeftGroup() {
         ActionManager actionManager = ActionManager.getInstance();
         DefaultActionGroup group = new DefaultActionGroup();
-        group.add(new AddQueryAction(ctx));
-        group.add(new RemoveQueryAction(ctx));
+        AddQueryAction addQueryAction = new AddQueryAction(ctx);
+        ctx.setAddQueryAction(addQueryAction);
+        group.add(addQueryAction);
+        RemoveQueryAction removeQueryAction = new RemoveQueryAction(ctx);
+        ctx.setRemoveQueryAction(removeQueryAction);
+        group.add(removeQueryAction);
         group.add(new DuplicateQueryAction(ctx));
         EditQueryAction editQueryAction = new EditQueryAction(ctx);
         ctx.setEditQueryAction(editQueryAction);

@@ -12,7 +12,7 @@ public class RemoveQueryAction extends AnAction {
     private Context ctx;
 
     public RemoveQueryAction(Context ctx) {
-        super("Remove", "Remove", AllIcons.General.Remove);
+        super("Remove (Delete)", "Remove", AllIcons.General.Remove);
         this.ctx = ctx;
     }
 

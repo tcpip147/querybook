@@ -20,9 +20,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
-import java.awt.event.ActionEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 
 public class QueryBookListTable extends JPanel {
 
@@ -101,7 +99,19 @@ public class QueryBookListTable extends JPanel {
             public void mousePressed(MouseEvent mouseEvent) {
                 JBTable table = (JBTable) mouseEvent.getSource();
                 if (mouseEvent.getClickCount() == 2 && table.getSelectedRow() != -1) {
-                    ctx.getEditQueryAction().actionPerformed(new AnActionEvent(null, DataManager.getInstance().getDataContext(), ActionPlaces.UNKNOWN, new Presentation(), ActionManager.getInstance(), 0));
+                    ctx.getEditQueryAction().actionPerformed(new AnActionEvent(null, DataManager.getInstance().getDataContext(ctx.getQueryEditor()), ActionPlaces.UNKNOWN, new Presentation(), ActionManager.getInstance(), 0));
+                }
+            }
+        });
+
+        /* Shortcut */
+        table.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == 127) {
+                    ctx.getRemoveQueryAction().actionPerformed(new AnActionEvent(null, DataManager.getInstance().getDataContext(ctx.getQueryEditor()), ActionPlaces.UNKNOWN, new Presentation(), ActionManager.getInstance(), 0));
+                } else if(e.getKeyCode() == 155) {
+                    ctx.getAddQueryAction().actionPerformed(new AnActionEvent(null, DataManager.getInstance().getDataContext(ctx.getQueryEditor()), ActionPlaces.UNKNOWN, new Presentation(), ActionManager.getInstance(), 0));
                 }
             }
         });

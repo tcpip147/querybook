@@ -6,7 +6,9 @@ import com.intellij.openapi.util.Key;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.tcpip147.querybook.PersistentState;
 import com.tcpip147.querybook.QueryBookFileEditor;
+import com.tcpip147.querybook.action.AddQueryAction;
 import com.tcpip147.querybook.action.EditQueryAction;
+import com.tcpip147.querybook.action.RemoveQueryAction;
 import com.tcpip147.querybook.ui.component.QueryBookListTable;
 import lombok.Getter;
 import lombok.Setter;
@@ -31,6 +33,8 @@ public class Context {
     private boolean modified;
     private PersistentState state;
     private EditQueryAction editQueryAction;
+    private RemoveQueryAction removeQueryAction;
+    private AddQueryAction addQueryAction;
 
     public Context(@NotNull Project project, @NotNull VirtualFile file) {
         this.project = project;

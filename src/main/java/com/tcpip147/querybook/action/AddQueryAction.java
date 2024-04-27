@@ -15,7 +15,7 @@ public class AddQueryAction extends AnAction {
     private final Context ctx;
 
     public AddQueryAction(Context ctx) {
-        super("Add", "Add", AllIcons.General.Add);
+        super("Add (Insert)", "Add", AllIcons.General.Add);
         this.ctx = ctx;
     }
 
