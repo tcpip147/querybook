@@ -1,0 +1,19 @@
+<idea-plugin>
+    <id>com.tcpip147.querybook</id>
+    <name>Querybook</name>
+    <vendor email="tcpip147@naver.com" url="https://github.com/tcpip147">tcpip147</vendor>
+    <description><![CDATA[This plugin supports tidying your queries.]]></description>
+    <depends>com.intellij.modules.platform</depends>
+    <extensions defaultExtensionNs="com.intellij">
+        <fileType name="QueryML File"
+                  implementationClass="com.tcpip147.querybook.QueryBookFileType"
+                  fieldName="INSTANCE"
+                  language="XML"
+                  extensions="queryml"/>
+        <fileEditorProvider implementation="com.tcpip147.querybook.QueryBookFileEditorProvider"/>
+        <projectService serviceImplementation="com.tcpip147.querybook.PersistentState"/>
+        <fileDocumentManagerListener implementation="com.tcpip147.querybook.FileSaver"/>
+        <gotoDeclarationHandler implementation="com.tcpip147.querybook.GotoHandler"/>
+        <completion.contributor language="any" implementationClass="com.tcpip147.querybook.QueryBookCompletionContributor"/>
+    </extensions>
+</idea-plugin>
