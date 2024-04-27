@@ -79,6 +79,12 @@ public class QueryEditor extends JBSplitter {
             for (XmlQuery xmlQuery : xmlQueryMap.getQueries()) {
                 createQuery(xmlQuery);
             }
+        } else {
+            ApplicationManager.getApplication().invokeLaterOnWriteThread(() -> {
+                WriteCommandAction.runWriteCommandAction(ctx.getProject(), () -> {
+                    FileDocumentManager.getInstance().getDocument(ctx.getFile()).setText("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<queryMap>\n</queryMap>");
+                });
+            });
         }
     }
 
@@ -131,9 +137,9 @@ public class QueryEditor extends JBSplitter {
                     xmlQuery.setCreatedDate(createdDate);
                     xmlQuery.setContent(sql);
                     createQuery(xmlQuery);
+                    selectQuery(queryList.size() - 1);
+                    ctx.setModified(true);
                 }
-                selectQuery(queryList.size() - 1);
-                ctx.setModified(true);
             });
         });
     }
