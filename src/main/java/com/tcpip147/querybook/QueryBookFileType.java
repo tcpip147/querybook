@@ -13,7 +13,7 @@ import javax.swing.*;
 public class QueryBookFileType extends LanguageFileType {
 
     public static final QueryBookFileType INSTANCE = new QueryBookFileType();
-    public static final Icon ICON = IconLoader.getIcon("/jar-gray.png", QueryBookFileType.class);
+    public static final Icon ICON = IconLoader.getIcon("/querybook.png", QueryBookFileType.class);
     public static final String EXTENSION = "queryml";
 
     protected QueryBookFileType() {
