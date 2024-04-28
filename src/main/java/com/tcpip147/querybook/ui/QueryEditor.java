@@ -33,7 +33,6 @@ import java.util.regex.Pattern;
 
 public class QueryEditor extends JBSplitter {
 
-    private static final Logger log = LoggerFactory.getLogger(QueryEditor.class);
     private Context ctx;
     private QueryBookListTable listTable;
     private JPanel bottomPanel;
@@ -94,6 +93,9 @@ public class QueryEditor extends JBSplitter {
     }
 
     private void clean() {
+        bottomPanel.removeAll();
+        revalidate();
+        repaint();
         listTable.clear();
         releaseMemory();
         queryList.clear();
@@ -144,6 +146,7 @@ public class QueryEditor extends JBSplitter {
                     createQuery(xmlQuery);
                     selectQuery(queryList.size() - 1);
                     ctx.setModified(true);
+                    queryList.get(queryList.size() - 1).getEditor().getContentComponent().requestFocusInWindow();
                 }
             });
         });
@@ -211,16 +214,20 @@ public class QueryEditor extends JBSplitter {
                 queryList.remove(n);
                 listTable.removeRow(n);
                 ctx.setModified(true);
+                if (queryList.size() > 0) {
+                    selectQuery(n == 0 ? 0 : n - 1);
+                }
             });
         });
     }
 
     public void clearAllQuery() {
-        WriteCommandAction.runWriteCommandAction(ctx.getProject(), () -> {
-            clean();
-            FileDocumentManager.getInstance().getDocument(ctx.getFile()).setText("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<queryMap>\n</queryMap>");
-            loadFile();
-            ctx.setModified(true);
+        ApplicationManager.getApplication().invokeLaterOnWriteThread(() -> {
+            WriteCommandAction.runWriteCommandAction(ctx.getProject(), () -> {
+                FileDocumentManager.getInstance().getDocument(ctx.getFile()).setText("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<queryMap>\n</queryMap>");
+                clean();
+                ctx.setModified(true);
+            });
         });
     }
 
