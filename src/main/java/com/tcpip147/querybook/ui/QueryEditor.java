@@ -18,8 +18,6 @@ import com.tcpip147.querybook.model.Query;
 import com.tcpip147.querybook.ui.component.QueryBookActionMenu;
 import com.tcpip147.querybook.ui.component.QueryBookListTable;
 import com.tcpip147.querybook.util.DocumentUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import java.awt.*;
@@ -242,10 +240,12 @@ public class QueryEditor extends JBSplitter {
             if (text != null) {
                 Editor editor = queryList.get(index).getEditor();
                 String originContent = text.getNode().getText();
-                int delimiterCount = countDelimiter(originContent.substring(0, offset - text.getNode().getStartOffset()));
-                editor.getCaretModel().moveToOffset(offset - text.getNode().getStartOffset() - (XmlQuery.DELIMITER.length() - 1) * delimiterCount - 1);
-                editor.getScrollingModel().scrollToCaret(ScrollType.CENTER_UP);
-                editor.getContentComponent().requestFocus(false);
+                if (offset > text.getNode().getStartOffset()) {
+                    int delimiterCount = countDelimiter(originContent.substring(0, offset - text.getNode().getStartOffset()));
+                    editor.getCaretModel().moveToOffset(offset - text.getNode().getStartOffset() - (XmlQuery.DELIMITER.length() - 1) * delimiterCount - 1);
+                    editor.getScrollingModel().scrollToCaret(ScrollType.CENTER_UP);
+                    editor.getContentComponent().requestFocus(false);
+                }
             }
         }
     }
