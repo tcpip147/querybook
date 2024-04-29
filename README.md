@@ -7,3 +7,7 @@
 In Intellij IDEA
 
 [File > Settings > Plugins > Install Plugin From Disk...](https://www.jetbrains.com/help/idea/managing-plugins.html#install_plugin_from_disk)
+
+## SpringBoot Starter
+
+https://github.com/tcpip147/querybook-spring-boot-starter
