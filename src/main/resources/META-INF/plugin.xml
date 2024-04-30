@@ -4,6 +4,7 @@
     <vendor email="tcpip147@naver.com" url="https://github.com/tcpip147">tcpip147</vendor>
     <description><![CDATA[This plugin supports tidying your queries.]]></description>
     <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.java</depends>
     <extensions defaultExtensionNs="com.intellij">
         <fileType name="QueryML File"
                   implementationClass="com.tcpip147.querybook.QueryBookFileType"
